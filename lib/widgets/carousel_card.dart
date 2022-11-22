@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/restaurants.dart';
+import '../constants/locations.dart';
 
 Widget carouselCard(int index, num distance, num duration) {
   return Card(
@@ -11,7 +11,7 @@ Widget carouselCard(int index, num distance, num duration) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(restaurants[index]['image']),
+            backgroundImage: NetworkImage(locations[index]['image']),
             radius: 20,
           ),
           const SizedBox(width: 10),
@@ -20,11 +20,11 @@ Widget carouselCard(int index, num distance, num duration) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  restaurants[index]['name'],
+                  locations[index]['name'],
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                Text(restaurants[index]['items'],
+                Text(locations[index]['items'],
                     overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 5),
                 Text(

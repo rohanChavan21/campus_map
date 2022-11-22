@@ -1,8 +1,8 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import '../constants/restaurants.dart';
+import '../constants/locations.dart';
 
-LatLng getLatLngFromRestaurantData(int index) {
-  return LatLng(double.parse(restaurants[index]['coordinates']['latitude']),
-      double.parse(restaurants[index]['coordinates']['longitude']));
+LatLng getLatLngFromLocationData(int index) {
+  return LatLng(double.parse(locations[index]['coordinates']['latitude']),
+      double.parse(locations[index]['coordinates']['longitude']));
 }

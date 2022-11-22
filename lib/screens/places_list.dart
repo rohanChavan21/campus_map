@@ -1,16 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_navigation/constants/restaurants.dart';
 
-class RestaurantsTable extends StatefulWidget {
-  const RestaurantsTable({Key? key}) : super(key: key);
+import '../constants/locations.dart';
+import '../helpers/shared_prefs.dart';
+
+class PlacesList extends StatefulWidget {
+  const PlacesList({Key? key}) : super(key: key);
 
   @override
-  State<RestaurantsTable> createState() => _RestaurantsTableState();
+  State<PlacesList> createState() => _PlacesListState();
 }
 
-class _RestaurantsTableState extends State<RestaurantsTable> {
+class _PlacesListState extends State<PlacesList> {
   /// Add handlers to buttons later on
   /// For call and maps we can use url_launcher package.
   /// We can also create a turn-by-turn navigation for a particular restaurant.
@@ -57,7 +59,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                   child: Icon(Icons.search),
                 ),
                 padding: EdgeInsets.all(15),
-                placeholder: 'Search dish or restaurant name',
+                placeholder: 'Where would you like to go today?',
                 style: TextStyle(color: Colors.white),
                 decoration: BoxDecoration(
                   color: Colors.black54,
@@ -69,7 +71,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: restaurants.length,
+                itemCount: locations.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     clipBehavior: Clip.antiAlias,
@@ -82,7 +84,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                           height: 175,
                           width: 140,
                           fit: BoxFit.cover,
-                          imageUrl: restaurants[index]['image'],
+                          imageUrl: locations[index]['image'],
                         ),
                         Expanded(
                           child: Container(
@@ -92,12 +94,12 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  restaurants[index]['name'],
+                                  locations[index]['name'],
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Text(restaurants[index]['items']),
+                                Text(locations[index]['items']),
                                 const Spacer(),
                                 const Text('Waiting time: 2hrs'),
                                 Text(
@@ -107,10 +109,10 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                                 ),
                                 Row(
                                   children: [
-                                    cardButtons(Icons.call, 'Call'),
-                                    cardButtons(Icons.location_on, 'Map'),
+                                    cardButtons(Icons.location_on, 'Navigate'),
                                     const Spacer(),
-                                    const Text('2km'),
+                                    Text(
+                                        '${(getDistanceFromSharedPrefs(index) / 1000).toStringAsFixed(2)}km'),
                                   ],
                                 )
                               ],

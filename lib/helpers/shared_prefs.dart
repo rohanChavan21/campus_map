@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:mapbox_navigation/main.dart';
+import '../main.dart';
 
 LatLng getLatLngFromSharedPrefs() {
   return LatLng(sharedPreferences.getDouble('latitude')!,
@@ -9,7 +9,7 @@ LatLng getLatLngFromSharedPrefs() {
 }
 
 Map getDecodedResponseFromSharedPrefs(int index) {
-  String key = 'restaurant--$index';
+  String key = 'location--$index';
   Map response = json.decode(sharedPreferences.getString(key)!);
   return response;
 }

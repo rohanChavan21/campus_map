@@ -13,7 +13,7 @@ buildscript {
                 // This should always be `mapbox` (not your username).
                 username = "mapbox"
                 // Use the secret token you stored in gradle.properties as the password
-                password = "sk.eyJ1Ijoicm9oYW4tY2hhdmFuLTE5IiwiYSI6ImNsYXFyd2w5YjAzbHIzdm55bm4ydzQxdXAifQ.ujTovmWLzUjW2mgzqTZYMw"
+                password = 'sk.eyJ1IjoiZ2F1cmF2cGF0aWwxNDA3IiwiYSI6ImNsYXJ6NTJ1dDFqeHEzdm5wMTZxOGV1cnoifQ.5ZTdDHpwSc1Z8s7BgChAPw'
             }
         }
     }
