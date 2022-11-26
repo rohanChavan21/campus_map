@@ -86,6 +86,9 @@ class _PlacesListState extends State<PlacesList> {
                           fit: BoxFit.cover,
                           imageUrl: locations[index]['image'],
                         ),
+                        // Image.asset(
+                        //   locations[index]['image'],
+                        // ),
                         Expanded(
                           child: Container(
                             height: 175,
@@ -109,7 +112,10 @@ class _PlacesListState extends State<PlacesList> {
                                 ),
                                 Row(
                                   children: [
-                                    cardButtons(Icons.location_on, 'Navigate'),
+                                    cardButtons(
+                                      Icons.location_on,
+                                      'Navigate',
+                                    ),
                                     const Spacer(),
                                     Text(
                                         '${(getDistanceFromSharedPrefs(index) / 1000).toStringAsFixed(2)}km'),

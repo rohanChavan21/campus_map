@@ -65,8 +65,8 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.black,
-      child: Center(child: Image.asset('assets/image/splash.png')),
+      color: Colors.white,
+      child: Center(child: Image.asset('assets/image/map_logo.png')),
     );
   }
 }
