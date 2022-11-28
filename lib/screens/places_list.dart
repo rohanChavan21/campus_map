@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mapbox_navigation/screens/campus_map.dart';
 
 import '../constants/locations.dart';
 import '../helpers/shared_prefs.dart';
@@ -13,16 +14,36 @@ class PlacesList extends StatefulWidget {
 }
 
 class _PlacesListState extends State<PlacesList> {
-  /// Add handlers to buttons later on
-  /// For call and maps we can use url_launcher package.
-  /// We can also create a turn-by-turn navigation for a particular restaurant.
-  /// 🔥 Let's look at it in the next video!!
+  List<Map<dynamic, dynamic>> _foundLocations = [];
+
+  @override
+  void initState() {
+    _foundLocations = locations;
+    super.initState();
+  }
+
+  void updateList(String enteredKeyword) {
+    List<Map<dynamic, dynamic>> _result = [];
+
+    if (enteredKeyword.isEmpty) {
+      _result = locations;
+    } else {
+      _result = locations
+          .where((element) => element['name']
+              .toLowerCase()
+              .Contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      _foundLocations = _result;
+    });
+  }
 
   Widget cardButtons(IconData iconData, String label) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => CampusMap(),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(5),
           minimumSize: Size.zero,
@@ -53,12 +74,13 @@ class _PlacesListState extends State<PlacesList> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CupertinoTextField(
-                prefix: Padding(
+              CupertinoTextField(
+                prefix: const Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Icon(Icons.search),
                 ),
-                padding: EdgeInsets.all(15),
+                onChanged: updateList,
+                padding: const EdgeInsets.all(15),
                 placeholder: 'Where would you like to go today?',
                 style: TextStyle(color: Colors.white),
                 decoration: BoxDecoration(
@@ -84,7 +106,7 @@ class _PlacesListState extends State<PlacesList> {
                           height: 175,
                           width: 140,
                           fit: BoxFit.cover,
-                          imageUrl: locations[index]['image'],
+                          imageUrl: _foundLocations[index]['image'],
                         ),
                         // Image.asset(
                         //   locations[index]['image'],
@@ -97,12 +119,12 @@ class _PlacesListState extends State<PlacesList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  locations[index]['name'],
+                                  _foundLocations[index]['name'],
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Text(locations[index]['items']),
+                                Text(_foundLocations[index]['items']),
                                 const Spacer(),
                                 const Text('Waiting time: 2hrs'),
                                 Text(

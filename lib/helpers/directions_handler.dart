@@ -5,7 +5,7 @@ import '../constants/locations.dart';
 import '../requests/mapbox_requests.dart';
 
 Future<Map> getDirectionsAPIResponse(LatLng currentLatLng, int index) async {
-  final response = await getCyclingRouteUsingMapbox(
+  final response = await getWalkingRouteUsingMapbox(
       currentLatLng,
       LatLng(double.parse(locations[index]['coordinates']['latitude']),
           double.parse(locations[index]['coordinates']['longitude'])));
@@ -15,6 +15,7 @@ Future<Map> getDirectionsAPIResponse(LatLng currentLatLng, int index) async {
   print('-------------------${locations[index]['name']}-------------------');
   print(distance);
   print(duration);
+  print(geometry);
 
   Map modifiedResponse = {
     "geometry": geometry,

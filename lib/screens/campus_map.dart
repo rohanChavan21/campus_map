@@ -68,6 +68,12 @@ class _CampusMapState extends State<CampusMap> {
     );
     // Add a polyLine between source and destination
     Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
+    Map final_geometry = {
+      [latlng.latitude, latlng.longitude],
+    } as Map;
+    for (int i = 1; i <= geometry.length; i++) {
+      final_geometry[i] = geometry[i - 1];
+    }
     final fills = {
       "type": "FeatureCollection",
       "features": [
@@ -75,7 +81,7 @@ class _CampusMapState extends State<CampusMap> {
           "type": "Feature",
           "id": 0,
           "properties": <String, dynamic>{},
-          "geometry": geometry,
+          "geometry": final_geometry,
         },
       ],
     };
@@ -98,7 +104,8 @@ class _CampusMapState extends State<CampusMap> {
         lineColor: Colors.green.toHexStringRGB(),
         lineCap: "round",
         lineJoin: "round",
-        lineWidth: 2,
+        lineWidth: 3,
+        lineOpacity: 50,
       ),
     );
   }
@@ -141,6 +148,9 @@ class _CampusMapState extends State<CampusMap> {
                 myLocationEnabled: true,
                 myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
                 minMaxZoomPreference: const MinMaxZoomPreference(15.5, 18),
+                onUserLocationUpdated: (location) => setState(() {
+                  latlng = location as LatLng;
+                }),
               ),
             ),
             CarouselSlider(
