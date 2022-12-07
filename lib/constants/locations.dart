@@ -33,7 +33,7 @@ List<Map> locations = [
     },
   },
   {
-    'id': '0',
+    'id': '4',
     'name': 'CSE Department',
     'items': 'Computer Science, Labs, Classrooms, Apple Lab, mini CCF',
     'image': 'assets/image/cse_dept.jpg',
@@ -42,17 +42,17 @@ List<Map> locations = [
       'longitude': '74.60221840840376',
     },
   },
-  {
-    'id': '0',
-    'name': 'Mini Ccf',
-    'items': 'Computer, Labs, Aptitude, Club Services, Events, Exams',
-    'image':
-        'https://www.targetadmission.com/img/colleges/newc/10403-96102.jpg',
-    'coordinates': {
-      'latitude': '16.845564703965678',
-      'longitude': '74.6022333433668',
-    },
-  },
+  // {
+  //   'id': '0',
+  //   'name': 'Mini Ccf',
+  //   'items': 'Computer, Labs, Aptitude, Club Services, Events, Exams',
+  //   'image':
+  //       'https://www.targetadmission.com/img/colleges/newc/10403-96102.jpg',
+  //   'coordinates': {
+  //     'latitude': '16.845564703965678',
+  //     'longitude': '74.6022333433668',
+  //   },
+  // },
   {
     'id': '0',
     'name': 'Cyber Hostel',
@@ -63,17 +63,17 @@ List<Map> locations = [
       'longitude': '74.60231126707097',
     },
   },
-  {
-    'id': '0',
-    'name': 'OVER HEAD WATER TANK',
-    'items': 'Water Tank,overhead',
-    'image': //NO Image
-        'assets/image/water_tank.jpg',
-    'coordinates': {
-      'latitude': '16.84454572130879',
-      'longitude': '74.60250030982937',
-    },
-  },
+  // {
+  //   'id': '0',
+  //   'name': 'OVER HEAD WATER TANK',
+  //   'items': 'Water Tank,overhead',
+  //   'image': //NO Image
+  //       'assets/image/water_tank.jpg',
+  //   'coordinates': {
+  //     'latitude': '16.84454572130879',
+  //     'longitude': '74.60250030982937',
+  //   },
+  // },
   {
     'id': '0',
     'name': 'Lipton',
@@ -109,7 +109,7 @@ List<Map> locations = [
     'id': '0',
     'name': 'Exam cell',
     'items': 'Exam, Grade Card, Exam doubt',
-    'image': 'assets/image/exam_cell.jpg',
+    'image': 'assets/image/exam_section.jpg',
     'coordinates': {
       'latitude': '16.843956552648578',
       'longitude': '74.60231231493475',
@@ -153,7 +153,7 @@ List<Map> locations = [
     'name': 'Sai Canteen',
     'items':
         'Nasta, Pohe, Samosa, chill,Coofee, chai, Breakfast, Chill, Friendzone ',
-    'image': 'assets/image/sai_canteen.jpg',
+    'image': 'assets/image/canteen.jpg',
     'coordinates': {
       'latitude': '16.843274696535488',
       'longitude': '74.60189866841853',
@@ -201,16 +201,16 @@ List<Map> locations = [
   //     'longitude': '74.60133869952199',
   //   },
   // },
-  {
-    'id': '0',
-    'name': 'Badminton Hall',
-    'items': 'Badminton',
-    'image': 'assets/image/badminton_hall.jpg',
-    'coordinates': {
-      'latitude': '16.843809496328618',
-      'longitude': '74.60139876770256',
-    },
-  },
+  // {
+  //   'id': '0',
+  //   'name': 'Badminton Hall',
+  //   'items': 'Badminton',
+  //   'image': 'assets/image/badminton_hall.jpg',
+  //   'coordinates': {
+  //     'latitude': '16.843809496328618',
+  //     'longitude': '74.60139876770256',
+  //   },
+  // },
   // {
   //   'id': '0',
   //   'name': 'Volleyball Court',
@@ -243,16 +243,16 @@ List<Map> locations = [
       'longitude': '74.60142721822041',
     },
   },
-  {
-    'id': '0',
-    'name': 'Classrooms',
-    'items': 'Classes, Club Services, Events',
-    'image': 'assets/image/classrooms.jpg',
-    'coordinates': {
-      'latitude': '16.844309804318968',
-      'longitude': '74.60105754971394',
-    },
-  },
+  // {
+  //   'id': '0',
+  //   'name': 'Classrooms',
+  //   'items': 'Classes, Club Services, Events',
+  //   'image': 'assets/image/classrooms.jpg',
+  //   'coordinates': {
+  //     'latitude': '16.844309804318968',
+  //     'longitude': '74.60105754971394',
+  //   },
+  // },
   {
     'id': '0',
     'name': 'Open Theatre',
@@ -263,16 +263,16 @@ List<Map> locations = [
       'longitude': '74.60076623675295',
     },
   },
-  {
-    'id': '0',
-    'name': 'Drawing Hall',
-    'items': 'Drawings, Classes',
-    'image': 'assets/image/drawing_hall.jpg',
-    'coordinates': {
-      'latitude': '16.844405974034387',
-      'longitude': '74.60020834886623',
-    },
-  },
+  // {
+  //   'id': '0',
+  //   'name': 'Drawing Hall',
+  //   'items': 'Drawings, Classes',
+  //   'image': 'assets/image/drawing_hall.jpg',
+  //   'coordinates': {
+  //     'latitude': '16.844405974034387',
+  //     'longitude': '74.60020834886623',
+  //   },
+  // },
   {
     'id': '0',
     'name': 'Civil Department',

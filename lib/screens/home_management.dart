@@ -3,6 +3,7 @@ import '/screens/campus_map.dart';
 import '/screens/places_list.dart';
 
 class HomeManagement extends StatefulWidget {
+  static const routeName = '/home-screen';
   const HomeManagement({Key? key}) : super(key: key);
 
   @override
@@ -11,7 +12,7 @@ class HomeManagement extends StatefulWidget {
 
 class _HomeManagementState extends State<HomeManagement> {
   final List<Widget> _pages = [
-    const CampusMap(),
+    CampusMap(),
     const PlacesList(),
   ];
   int _index = 0;

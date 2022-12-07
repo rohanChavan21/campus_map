@@ -3,12 +3,14 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mapbox_navigation/helpers/commons.dart';
+import 'package:mapbox_navigation/screens/navigation_screen.dart';
 
 import '../constants/locations.dart';
 import '../helpers/shared_prefs.dart';
 import '../widgets/carousel_card.dart';
 
 class CampusMap extends StatefulWidget {
+  static const routeName = '/map-screen';
   const CampusMap({Key? key}) : super(key: key);
 
   @override
@@ -22,6 +24,8 @@ class _CampusMapState extends State<CampusMap> {
   late MapboxMapController controller;
   late List<CameraPosition> _locationList;
   List<Map> carouselData = [];
+  // bool _loadedInitData = false;
+  // LatLng? destination = null;
 
   // Carousel related
   int pageIndex = 0;
@@ -59,6 +63,18 @@ class _CampusMapState extends State<CampusMap> {
     );
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   if (!_loadedInitData) {
+  //     final routeArgs =
+  //         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  //     final latitude = routeArgs['latitude'];
+  //     final longitude = routeArgs['longitude'];
+  //     destination = LatLng(latitude, longitude);
+  //   }
+  //   _loadedInitData = true;
+  // }
+
   _addSourceAndLineLayer(int index, bool removeLayer) async {
     // Can animate camera to focus on the item
     controller.animateCamera(
@@ -68,12 +84,14 @@ class _CampusMapState extends State<CampusMap> {
     );
     // Add a polyLine between source and destination
     Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
-    Map final_geometry = {
-      [latlng.latitude, latlng.longitude],
-    } as Map;
-    for (int i = 1; i <= geometry.length; i++) {
-      final_geometry[i] = geometry[i - 1];
-    }
+    // Map final_geometry = geometry;
+    // for (int i = 0; i <= geometry.length; i++) {
+    //   if (i == 0) {
+    //     final_geometry[i] = [latlng.latitude, latlng.longitude];
+    //   } else {
+    //     final_geometry[i] = geometry[i - 1];
+    //   }
+    // }
     final fills = {
       "type": "FeatureCollection",
       "features": [
@@ -81,15 +99,52 @@ class _CampusMapState extends State<CampusMap> {
           "type": "Feature",
           "id": 0,
           "properties": <String, dynamic>{},
-          "geometry": final_geometry,
+          "geometry": geometry,
         },
       ],
     };
+
+    // await controller.addSymbolLayer(
+    //   "fills",
+    //   "lines",
+    //   const SymbolLayerProperties(
+    //     iconImage: 'assets/icon/th.png',
+    //     iconSize: 0.5,
+    //     textField: 'Destination',
+    //     textColor: Colors.white,
+    //     textAnchor: "top",
+    //     iconTextFit: "none",
+    //     textSize: 7,
+    //   ),
+    // );
+    for (CameraPosition _location in _locationList) {
+      await controller.addSymbol(
+        SymbolOptions(
+          geometry: _location.target,
+          iconSize: 0.2,
+          iconImage: "assets/icon/th.png",
+          iconOpacity:
+              _location.target == carouselData[index]['index'] ? 0.75 : 0.05,
+        ),
+      );
+    }
+
+    // await controller.addSymbol(
+    //   SymbolOptions(
+    //       geometry: geometry[geometry.length - 1],
+    //       iconSize: 0.75,
+    //       iconImage: 'assets/icon/th.png'),
+    // );
 
     // Remove lineLayer and source if it exists
     if (removeLayer == true) {
       await controller.removeLayer("lines");
       await controller.removeSource("fills");
+      // await controller.removeSymbol(
+      //   Symbol(
+      //     "lines",
+      //     SymbolOptions(),
+      //   ),
     }
 
     // Add new source and lineLayer
@@ -105,9 +160,12 @@ class _CampusMapState extends State<CampusMap> {
         lineCap: "round",
         lineJoin: "round",
         lineWidth: 3,
-        lineOpacity: 50,
+        // lineOpacity: 0,
       ),
     );
+    // await controller.addSymbols(SymbolOptions(
+    //   geometry:
+    // ));
   }
 
   _onMapCreated(MapboxMapController controller) async {
@@ -120,7 +178,8 @@ class _CampusMapState extends State<CampusMap> {
         SymbolOptions(
           geometry: _location.target,
           iconSize: 0.2,
-          iconImage: "assest/icon/food.png",
+          iconImage: "assets/icon/th.png",
+          iconOpacity: 0.1,
         ),
       );
     }
@@ -132,6 +191,17 @@ class _CampusMapState extends State<CampusMap> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Campus Navigation'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearchDelegate(),
+              );
+            },
+            icon: const Icon(Icons.search),
+          )
+        ],
       ),
       body: SafeArea(
         child: Stack(
@@ -148,9 +218,19 @@ class _CampusMapState extends State<CampusMap> {
                 myLocationEnabled: true,
                 myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
                 minMaxZoomPreference: const MinMaxZoomPreference(15.5, 18),
-                onUserLocationUpdated: (location) => setState(() {
-                  latlng = location as LatLng;
-                }),
+                myLocationRenderMode: MyLocationRenderMode.NORMAL,
+                // onUserLocationUpdated: (location) => setState(() {
+                //   latlng = [
+                //     location.position.latitude,
+                //     location.position.longitude
+                //   ] as LatLng;
+                // }),
+                // cameraTargetBounds: CameraTargetBounds(
+                //   LatLngBounds(
+                //     northeast: LatLng(16.844520514826883, 74.59821532994178),
+                //     southwest: LatLng(16.842341570446195, 74.60467173950599),
+                //   ),
+                // ),
               ),
             ),
             CarouselSlider(
@@ -184,5 +264,76 @@ class _CampusMapState extends State<CampusMap> {
         child: const Icon(Icons.my_location),
       ),
     );
+  }
+}
+
+class MySearchDelegate extends SearchDelegate {
+  // List<String> _getSearchResults() {
+  //   List<String> finalList = [];
+  //   for (int i = 0; i < locations.length; i++) {
+  //     finalList[i] = locations[i]['name'];
+  //   }
+  //   return finalList;
+  // }
+  // List<String> searchResults = _getSearchResults();
+  List<String> _getnameList() {
+    List<String> searchList = [];
+    for (Map _location in locations) {
+      searchList.add(_location['name']);
+    }
+    return searchList;
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+          onPressed: () {
+            if (query.isEmpty) {
+              close(context, null);
+            } else {
+              query = '';
+            }
+          },
+          icon: Icon(
+            Icons.clear,
+          ),
+        ),
+      ];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+        onPressed: () => close(context, null),
+        icon: Icon(
+          Icons.arrow_back,
+        ),
+      );
+
+  @override
+  Widget buildResults(BuildContext context) => const NavigationScreen();
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    List<String> suggestions = _getnameList().where((searchResult) {
+      final result = searchResult.toLowerCase();
+      final input = query.toLowerCase();
+
+      return result.contains(input);
+    }).toList();
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final suggestion = suggestions[index];
+
+        return ListTile(
+          title: Text(suggestion),
+          onTap: () {
+            query = suggestion;
+            showResults(context);
+          },
+        );
+      },
+      itemCount: suggestions.length,
+    );
+    // throw UnimplementedError();
   }
 }

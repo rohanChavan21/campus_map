@@ -12,10 +12,10 @@ Future<Map> getDirectionsAPIResponse(LatLng currentLatLng, int index) async {
   Map geometry = response['routes'][0]['geometry'];
   num duration = response['routes'][0]['duration'];
   num distance = response['routes'][0]['distance'];
-  print('-------------------${locations[index]['name']}-------------------');
-  print(distance);
-  print(duration);
-  print(geometry);
+  // print('-------------------${locations[index]['name']}-------------------');
+  // print(distance);
+  // print(duration);
+  // print(geometry);
 
   Map modifiedResponse = {
     "geometry": geometry,
