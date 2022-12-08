@@ -268,21 +268,30 @@ class _CampusMapState extends State<CampusMap> {
 }
 
 class MySearchDelegate extends SearchDelegate {
-  // List<String> _getSearchResults() {
-  //   List<String> finalList = [];
-  //   for (int i = 0; i < locations.length; i++) {
-  //     finalList[i] = locations[i]['name'];
-  //   }
-  //   return finalList;
-  // }
-  // List<String> searchResults = _getSearchResults();
-  List<String> _getnameList() {
-    List<String> searchList = [];
-    for (Map _location in locations) {
-      searchList.add(_location['name']);
-    }
-    return searchList;
-  }
+  List<String> searchResults = [
+    'Saraswati Idol',
+    'Ajit Gulabchand Library',
+    'Main Gate',
+    'CSE Department',
+    'Cyber Hostel',
+    'Lipton',
+    'Rector Office',
+    'Polytechnique Wing',
+    'Exam cell',
+    'Sai Canteen',
+    'WCE Gym',
+    'Walchand College Ground',
+    'Tilak Hall',
+    'Open Theatre',
+    'Civil Department',
+    'Mechanical Department',
+    'Department Of Electrical Engineering',
+    'Academic Complex',
+    'Administration Building',
+    'Ganesh Temple',
+    'IT Department ',
+    'CCF',
+  ];
 
   @override
   List<Widget>? buildActions(BuildContext context) => [
@@ -309,12 +318,12 @@ class MySearchDelegate extends SearchDelegate {
       );
 
   @override
-  Widget buildResults(BuildContext context) => const NavigationScreen();
+  Widget buildResults(BuildContext context) => NavigationScreen(query);
 
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
-    List<String> suggestions = _getnameList().where((searchResult) {
+    List<String> suggestions = searchResults.where((searchResult) {
       final result = searchResult.toLowerCase();
       final input = query.toLowerCase();
 

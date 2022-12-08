@@ -9,7 +9,8 @@ import '../widgets/carousel_card.dart';
 
 class NavigationScreen extends StatefulWidget {
   static const routeName = '/navigate';
-  const NavigationScreen({Key? key}) : super(key: key);
+  final String query;
+  const NavigationScreen(this.query, {Key? key}) : super(key: key);
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -25,6 +26,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   late List<Widget> carouselItems;
   late CameraPosition destinationCamera;
   bool _loadedInitData = false;
+  late int id;
 
   @override
   void initState() {
@@ -64,9 +66,26 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void didChangeDependencies() {
     if (!_loadedInitData) {
       final routeArgs = (ModalRoute.of(context)?.settings.arguments ??
-          <dynamic, dynamic>{}) as Map;
-      destination = LatLng(routeArgs['latitude'], routeArgs['longitude']);
-      destinationCamera = CameraPosition(target: destination, zoom: 17.5);
+          <dynamic, dynamic>{}) as Map<dynamic, dynamic>;
+      if (routeArgs.isEmpty) {
+        int element = 0;
+        for (int i = 0; i < locations.length; i++) {
+          if (widget.query == locations[i]['name']) {
+            element = i;
+            break;
+          }
+        }
+        destination = locations[element]['coordinates'];
+      } else {
+        destination = LatLng(
+          double.parse(routeArgs['latitude']),
+          double.parse(
+            routeArgs['longitude'],
+          ),
+        );
+        destinationCamera = CameraPosition(target: destination, zoom: 17.5);
+        id = routeArgs['id'];
+      }
     }
     _loadedInitData = true;
     super.didChangeDependencies();
@@ -81,13 +100,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
   // }
 
   _addSourceAndLineLayer(bool removeLayer) async {
-    late int index;
-    for (int i = 0; i < locations.length; i++) {
-      if (destination.latitude == locations[i]['coordinates']['latitude'] &&
-          destination.longitude == locations[i]['coordinates']['longitude']) {
-        index = i;
-      }
-    }
+    late int index = id;
+    // for (int i = 0; i < locations.length; i++) {
+    //   if (destination.latitude == locations[i]['coordinates']['latitude'] &&
+    //       destination.longitude == locations[i]['coordinates']['longitude']) {
+    //     index = i;
+    //   }
+    // }
     controller.animateCamera(
       CameraUpdate.newCameraPosition(destinationCamera),
     );
@@ -134,7 +153,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         lineColor: Colors.green.toHexStringRGB(),
         lineCap: "round",
         lineJoin: "round",
-        lineWidth: 2.5,
+        lineWidth: 2.2,
         lineOpacity: 0.75,
         // lineOpacity: 0,
       ),
@@ -156,10 +175,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 initialCameraPosition: _initialcameraPosition,
                 accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
                 onMapCreated: _onMapCreated,
-                onStyleLoadedCallback: _addSourceAndLineLayer(false),
+                // onStyleLoadedCallback: _addSourceAndLineLayer(false),
                 myLocationEnabled: true,
                 myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
-                myLocationRenderMode: MyLocationRenderMode.GPS,
+                myLocationRenderMode: MyLocationRenderMode.NORMAL,
                 minMaxZoomPreference: const MinMaxZoomPreference(16, 19),
                 onUserLocationUpdated: ((location) {
                   setState(() {
@@ -167,6 +186,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       location.position.latitude,
                       location.position.longitude
                     ] as LatLng;
+                    _addSourceAndLineLayer(false);
                   });
                 }),
               ),

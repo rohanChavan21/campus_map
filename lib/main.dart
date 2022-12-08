@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Splash(),
         CampusMap.routeName: (context) => CampusMap(),
-        NavigationScreen.routeName: (context) => NavigationScreen(),
+        NavigationScreen.routeName: (context) => NavigationScreen(''),
       },
     );
   }
